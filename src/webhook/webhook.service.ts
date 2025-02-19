@@ -22,6 +22,7 @@ export class WebhookService {
       );
       const codeReview = await this.aiService.analyzeCode(
         files.map((f) => f.path).join('\n'),
+        process.env.OPENAI_API_KEY!,
       );
 
       await this.githubService.commentOnPR(

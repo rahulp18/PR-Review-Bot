@@ -1,12 +1,16 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import OpenAI from 'openai';
 
 @Injectable()
 export class AiService {
-  constructor(@Inject('OPENAI') private readonly openai: OpenAI) {}
-
-  async analyzeCode(code: string): Promise<string> {
-    const response = await this.openai.chat.completions.create({
+  async analyzeCode(code: string, userApiKey: string): Promise<string> {
+    if (!userApiKey) {
+      throw new Error('API Key is required');
+    }
+    const openai = new OpenAI({
+      apiKey: userApiKey,
+    });
+    const response = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [
         {

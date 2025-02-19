@@ -6,6 +6,7 @@ export class WebhookController {
   constructor(private readonly webhookService: WebhookService) {}
 
   @Post()
+  // @UseGuards(AuthGuard('jwt'))
   async handleWebhook(@Req() req) {
     await this.webhookService.handlePRWebhook(req.body);
   }
