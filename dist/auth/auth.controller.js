@@ -25,7 +25,7 @@ let AuthController = class AuthController {
     }
     async githubAuthRedirect(req, res) {
         const data = await this.authService.createUpdateUser(req.user);
-        return res.redirect(`http://localhost:5000/auth?token=${data?.token}`);
+        return res.redirect(`${process.env.FRONTEND_URL}/auth?token=${data?.token}`);
     }
     async updateApiKey(req, body) {
         console.log(body?.openAiApiKey);
