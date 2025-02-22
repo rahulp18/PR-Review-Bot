@@ -29,7 +29,9 @@ export class AuthController {
   async githubAuthRedirect(@Req() req: Request, @Res() res: Response) {
     // req.user is set by the GitHub strategy
     const data = await this.authService.createUpdateUser(req.user);
-    return res.redirect(`http://localhost:5000/auth?token=${data?.token}`);
+    return res.redirect(
+      `${process.env.FRONTEND_URL}/auth?token=${data?.token}`,
+    );
   }
 
   // Protected route to update the user's API key (JWT-based)
