@@ -38,7 +38,6 @@ export class AuthController {
   @Patch('update-api-key')
   @UseGuards(AuthGuard('jwt'))
   async updateApiKey(@Req() req: Request, @Body() body: UpdateApiKeyDto) {
-    console.log(body?.openAiApiKey);
     return this.authService.updateUserApiKey(req.user, body.openAiApiKey);
   }
   @Get('me')
