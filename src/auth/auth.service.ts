@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcrypt';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { encrypt } from './helper';
 @Injectable()
 export class AuthService {
   constructor(
@@ -35,10 +35,12 @@ export class AuthService {
 
   async updateUserApiKey(user: any, apiKey: string) {
     const userId = user?.id;
-    const hashedKey = await bcrypt.hash(apiKey, 10);
-    return this.client.user.update({
-      where: { id: userId },
-      data: { openAiApiKey: hashedKey },
-    });
+      const encryptedToken = encrypt(apiKey);
+      // Serialize to JSON string
+      const encryptedTokenString = JSON.stringify(encryptedToken);
+      return this.client.user.update({
+        where: { id: userId },
+        data: { openAiApiKey: encryptedTokenString },
+      });
   }
 }
