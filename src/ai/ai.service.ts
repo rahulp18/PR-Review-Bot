@@ -15,10 +15,14 @@ export class AiService {
       messages: [
         {
           role: 'user',
-          content: `Analyze the following code and provide only suggestions for optimization and best practices. Do not describe what the code does. Just return the necessary changes needed to improve performance, readability, or efficiency:\n\n\`\`\`typescript\n${code}\n\`\`\``,
+          content: `Analyze the following code and provide ONLY optimization suggestions focused on performance, readability, and efficiency improvements. Do not describe what the code does; only list the necessary changes to improve the code:
+
+\`\`\`
+${code}
+\`\`\``,
         },
       ],
-      temperature: 0.3, // Reduce randomness for more precise suggestions
+      temperature: 0.2, // Reduce randomness for more precise suggestions
     });
 
     return response.choices[0].message?.content || 'No suggestions found.';
